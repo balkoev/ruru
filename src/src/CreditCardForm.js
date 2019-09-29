@@ -43,7 +43,6 @@ export default class CreditCardForm extends Component {
   };
 
   handleChange = (e) => {
-    console.log(e.charCode);
     e.preventDefault();
     let { name, value } = e.target;
     let errors = this.state.errors;
@@ -68,7 +67,6 @@ export default class CreditCardForm extends Component {
     };
 
     this.setState({ errors, [name]: value, }, () => {
-      console.log(errors);
     });
   };
 
@@ -79,7 +77,9 @@ export default class CreditCardForm extends Component {
   onKeyDownAmount = (e) => {
     if (validAmountRegex.test(e.key) && e.key !== 'Backspace') {
       e.preventDefault();
-    };
+    } else {
+      this.totalAmount();
+    }
   };
 
   onKeyDownCardHolder = (e) => {
@@ -100,8 +100,15 @@ export default class CreditCardForm extends Component {
     };
   };
 
+  totalAmount = () => {
+    let res = this.state.amount * 5 / 100;
+    this.setState({
+      total: res,
+    });
+  };
+
   render() {
-    const { amount, total, pan, cardHolder, expires, cvc } = this.state;
+    const { amount, total, pan, cardHolder, expires, cvc, terms, pay } = this.state;
     const { errors } = this.state;
 
     return (
@@ -124,7 +131,8 @@ export default class CreditCardForm extends Component {
                   placeholder='With service fee'
                   name='total'
                   value={total}
-                  onChange={this.handleChange}
+                  onChange={this.totalAmount}
+                  readOnly
                 />
               </Form.Group>
               <p>Service fee 5% of the amount, but not less than 10 rubles</p>
@@ -189,7 +197,7 @@ export default class CreditCardForm extends Component {
                   onClick={this.onClickTerms}
                 />
               </Form.Field>
-              <Button type='submit'>Pay</Button>
+              <Button type='submit' disabled={!amount || !pan || !cardHolder || !expires || !cvc || !terms}>Pay</Button>
             </Form>
           </Grid.Column>
         </Grid>
