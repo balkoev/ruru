@@ -49,7 +49,7 @@ export default class CreditCardForm extends Component {
     switch (name) {
       case 'pan':
         errors.pan =
-          ((luhnAlgorithm(value) % 10 === 0) || value.length !== 16)
+          ((luhnAlgorithm(value) % 10 === 0) || (value.length == 0 && value.length !== 16))
             ? 'Invalid'
             : '';
         break;
@@ -65,7 +65,7 @@ export default class CreditCardForm extends Component {
       default:
         break;
     };
-
+    console.log(errors);
     this.setState({ errors, [name]: value, }, () => {
     });
   };
