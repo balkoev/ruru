@@ -25,6 +25,7 @@ function luhnAlgorithm(digits) {
 
 const validAmountRegex = RegExp(/[a-zA-Z_;:!@#$%^&*()_+=\[\]\{\}\'\"\`\<\>\,\~\?\-\/]$/);
 const validCardHolderRegex = RegExp(/[0-9;:!@#$%^&*()_+=\[\]\{\}\'\"\`\<\>\,\~\?\-\/]$/);
+const validPanRegex = RegExp(/[a-zA-Z_;:!@#$%^&*()_+=\[\]\{\}\'\"\`\<\>\,\~\?\-\//.]$/);
 
 export default class CreditCardForm extends Component {
 
@@ -42,16 +43,25 @@ export default class CreditCardForm extends Component {
   };
 
   handleChange = (e) => {
+    console.log(e.charCode);
     e.preventDefault();
-    const { name, value } = e.target;
+    let { name, value } = e.target;
     let errors = this.state.errors;
-
     switch (name) {
       case 'pan':
         errors.pan =
-          (luhnAlgorithm(value) % 10 === 0)
+          ((luhnAlgorithm(value) % 10 === 0) || value.length !== 16)
             ? 'Invalid'
             : '';
+        break;
+      case 'expires':
+        if (value.length === 2) {
+          value += '/';
+        } else if (value.length === 3 && e.keyCode == 8) {
+          console.log('need fix Expires');
+        };
+
+        this.setState({ expires: value });
         break;
       default:
         break;
@@ -76,7 +86,19 @@ export default class CreditCardForm extends Component {
     if (validCardHolderRegex.test(e.key) && e.key !== 'Backspace') {
       e.preventDefault();
     };
-  }
+  };
+
+  onKeyDownPan = (e) => {
+    if (validPanRegex.test(e.key) && e.key !== 'Backspace') {
+      e.preventDefault();
+    };
+  };
+
+  onKeyDownExpires = (e) => {
+    if (validPanRegex.test(e.key) && e.key !== 'Backspace') {
+      e.preventDefault();
+    };
+  };
 
   render() {
     const { amount, total, pan, cardHolder, expires, cvc } = this.state;
@@ -116,6 +138,8 @@ export default class CreditCardForm extends Component {
                     name='pan'
                     value={pan}
                     onChange={this.handleChange}
+                    onKeyDown={this.onKeyDownPan}
+                    maxLength='16'
                   />
                   {errors.pan.length > 0 &&
                     <Message
@@ -145,6 +169,8 @@ export default class CreditCardForm extends Component {
                   name='expires'
                   value={expires}
                   onChange={this.handleChange}
+                  onKeyDown={this.onKeyDownExpires}
+                  maxLength='5'
                 />
                 <Form.Input
                   label='CVC'
@@ -152,6 +178,8 @@ export default class CreditCardForm extends Component {
                   name='cvc'
                   value={cvc}
                   onChange={this.handleChange}
+                  type='password'
+                  maxLength='3'
                 />
               </Form.Group>
               <Form.Field>
