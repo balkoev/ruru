@@ -24,6 +24,7 @@ function luhnAlgorithm(digits) {
 };
 
 const validAmountRegex = RegExp(/[a-zA-Z_;:!@#$%^&*()_+=\[\]\{\}\'\"\`\<\>\,\~\?\-\/]$/);
+const validCardHolderRegex = RegExp(/[0-9;:!@#$%^&*()_+=\[\]\{\}\'\"\`\<\>\,\~\?\-\/]$/);
 
 export default class CreditCardForm extends Component {
 
@@ -36,13 +37,7 @@ export default class CreditCardForm extends Component {
     cvc: '',
     terms: false,
     errors: {
-      amount: '',
-      total: '',
       pan: '',
-      cardHolder: '',
-      expires: '',
-      cvc: '',
-      terms: false,
     },
   };
 
@@ -52,12 +47,6 @@ export default class CreditCardForm extends Component {
     let errors = this.state.errors;
 
     switch (name) {
-      case 'amount':
-        errors.amount =
-          validAmountRegex.test(value)
-            ? 'Invalid'
-            : '';
-        break;
       case 'pan':
         errors.pan =
           (luhnAlgorithm(value) % 10 === 0)
@@ -82,6 +71,12 @@ export default class CreditCardForm extends Component {
       e.preventDefault();
     };
   };
+
+  onKeyDownCardHolder = (e) => {
+    if (validCardHolderRegex.test(e.key) && e.key !== 'Backspace') {
+      e.preventDefault();
+    };
+  }
 
   render() {
     const { amount, total, pan, cardHolder, expires, cvc } = this.state;
@@ -133,7 +128,6 @@ export default class CreditCardForm extends Component {
                     />}
                 </Form.Field>
               </Form>
-
               <Form.Field>
                 <Form.Input
                   label='Card Holder'
@@ -141,6 +135,7 @@ export default class CreditCardForm extends Component {
                   name='cardHolder'
                   value={cardHolder}
                   onChange={this.handleChange}
+                  onKeyDown={this.onKeyDownCardHolder}
                 />
               </Form.Field>
               <Form.Group widths='equal'>
