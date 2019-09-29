@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, Checkbox, Form, Grid } from 'semantic-ui-react';
 
-const CardForm = () => (
+const CreditCardForm = () => (
   <Grid centered columns={3}>
     <Grid.Column>
       <Form>
@@ -26,4 +26,4 @@ const CardForm = () => (
   </Grid>
 );
 
-export default CardForm;
+export default CreditCardForm;
