@@ -4,9 +4,11 @@ import { Container } from 'semantic-ui-react';
 
 function App() {
   return (
-    <Container>
-      <CreditCardForm />
-    </Container>
+    <div>
+      <Container>
+        <CreditCardForm />
+      </Container>
+    </div>
   );
 }
 
