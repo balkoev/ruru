@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Container, Button, Checkbox, Form, Grid, Message } from 'semantic-ui-react';
+import { Link } from 'react-router-dom';
 
 import './CreditCardForm.css';
 
@@ -203,7 +204,7 @@ export default class CreditCardForm extends Component {
                   onClick={this.onClickTerms}
                 />
               </Form.Field>
-              <Button type='submit' disabled={!amount || !pan || !cardHolder || !expires || !cvc || !terms}>Pay</Button>
+              <Button as={Link} to={'/checkout'} type='submit' disabled={!amount || !pan || !cardHolder || !expires || !cvc || !terms}>Pay</Button>
             </Form>
           </Grid.Column>
         </Grid>
