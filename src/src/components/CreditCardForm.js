@@ -12,6 +12,7 @@ export default class CreditCardForm extends Component {
     expires: '',
     cvc: '',
     terms: false,
+    formIsValid: false,
     errors: {
       pan: '',
     },
@@ -19,6 +20,7 @@ export default class CreditCardForm extends Component {
 
   handleChange = (e) => {
     e.preventDefault();
+    console.log(this.state.formIsValid);
     let { name, value } = e.target;
     let errors = this.state.errors;
     switch (name) {
@@ -31,9 +33,10 @@ export default class CreditCardForm extends Component {
       case 'expires':
         if (value.length === 2) {
           value += '/';
-        } else if (value.length === 3 && e.keyCode === 8) {
+        } else if (value.length === 3) {
           console.log('need fix Expires');
         };
+
         this.setState({ expires: value });
         break;
       default:
@@ -76,7 +79,6 @@ export default class CreditCardForm extends Component {
   };
 
   onKeyDownCardHolder = (e) => {
-    console.log(e.keyCode);
     if (!validCardHolderRegex.test(e.key) && e.key !== 'Backspace') {
       e.preventDefault();
     };
@@ -89,7 +91,7 @@ export default class CreditCardForm extends Component {
   };
 
   onKeyDownExpires = (e) => {
-    if (validPanRegex.test(e.key) && e.key !== 'Backspace') {
+    if (!validPanRegex.test(e.key) && e.key !== 'Backspace') {
       e.preventDefault();
     };
   };
@@ -105,9 +107,24 @@ export default class CreditCardForm extends Component {
     this.props.cvcPropsToApp(this.state.cvc);
   };
 
+  // onChangeExpiry = (e) => {
+  //   this.setState({
+  //     expires: cardExpiry(e.target.value),
+  //   });
+  // };
+
   render() {
     const { amount, total, pan, cardHolder, expires, cvc, terms } = this.state;
     const { errors } = this.state;
+
+    const isEnabled =
+      amount.length > 0 &&
+      cardHolder.length > 0 &&
+      expires.length === 5 &&
+      cvc.length === 3 &&
+      terms &&
+      errors.pan.length === 0;
+
     console.log(this.state);
     return (
       <div>
@@ -169,6 +186,7 @@ export default class CreditCardForm extends Component {
                     name='expires'
                     value={expires}
                     onChange={this.handleChange}
+                    // onChange={this.onChangeExpiry}
                     onKeyDown={this.onKeyDownExpires}
                     maxLength='5'
                   />
@@ -189,12 +207,12 @@ export default class CreditCardForm extends Component {
                     onClick={this.onClickTerms}
                   />
                 </Form.Field>
-                <Button type='submit' disabled={!amount || !pan || !cardHolder || !expires || !cvc || !terms}>Pay</Button>
+                <Button type='submit' disabled={!isEnabled}>Pay</Button>
               </Form>
             </Grid.Column>
           </Grid>
         </Container>
-      </div>
+      </div >
     );
   };
 };
