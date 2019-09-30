@@ -8,27 +8,36 @@ export default class App extends Component {
 
   state = {
     total: '',
+    cvc: '',
   };
 
-  callbackFunction = (CreditCardData) => {
-    this.setState({ total: CreditCardData });
+  getTotalFromCheckout = (CreditCardTotal) => {
+    this.setState({ total: CreditCardTotal });
+  };
+
+  getCvcFromCheckout = (CreditCardCvc) => {
+    this.setState({ cvc: CreditCardCvc });
   };
 
   render() {
     console.log(this.state.total);
+    console.log(this.state.cvc);
     return (
       <Router>
         <div>
           <Switch>
             <Route
               exact path='/'
-              render={(props) => <CreditCardForm {...props} appCallback={this.callbackFunction}/>}
+              render={(props) => <CreditCardForm {...props} totalPropsToApp={this.getTotalFromCheckout} cvcPropsToApp={this.getCvcFromCheckout} />}
             />
             <Route
               path='/checkout'
               render={(props) => <Checkout {...props} total={this.state.total}/>}
               />
-            <Route path='/result' component={Result} />
+            <Route
+            path='/result'
+            render={(props) => <Result {...props} cvc={this.state.cvc}/>}
+            />
           </Switch>
         </div>
       </Router>
