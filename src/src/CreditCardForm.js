@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Button, Checkbox, Form, Grid, Message } from 'semantic-ui-react';
+import NumberFormat from 'react-number-format';
 
 import './CreditCardForm.css';
 
@@ -59,7 +60,6 @@ export default class CreditCardForm extends Component {
         } else if (value.length === 3 && e.keyCode == 8) {
           console.log('need fix Expires');
         };
-
         this.setState({ expires: value });
         break;
       default:
@@ -77,9 +77,23 @@ export default class CreditCardForm extends Component {
   onKeyDownAmount = (e) => {
     if (validAmountRegex.test(e.key) && e.key !== 'Backspace') {
       e.preventDefault();
-    } else {
-      this.totalAmount();
     }
+  };
+
+  onChangeAmount = (e) => {
+    if (parseInt(e.target.value) <= 200) {
+      let res = (parseInt(this.state.amount) + 10);
+      console.log(res);
+      this.setState({
+        total: res,
+      });
+    } else {
+      console.log("%");
+    };
+
+    this.setState({
+      amount: e.target.value,
+    });
   };
 
   onKeyDownCardHolder = (e) => {
@@ -100,17 +114,10 @@ export default class CreditCardForm extends Component {
     };
   };
 
-  totalAmount = () => {
-    let res = this.state.amount * 5 / 100;
-    this.setState({
-      total: res,
-    });
-  };
-
   render() {
     const { amount, total, pan, cardHolder, expires, cvc, terms, pay } = this.state;
     const { errors } = this.state;
-
+    console.log(this.state);
     return (
       <div>
         <Grid centered columns={3}>
@@ -123,7 +130,7 @@ export default class CreditCardForm extends Component {
                   placeholder='$'
                   name='amount'
                   value={amount}
-                  onChange={this.handleChange}
+                  onChange={this.onChangeAmount}
                   onKeyDown={this.onKeyDownAmount}
                 />
                 <Form.Input
@@ -131,7 +138,6 @@ export default class CreditCardForm extends Component {
                   placeholder='With service fee'
                   name='total'
                   value={total}
-                  onChange={this.totalAmount}
                   readOnly
                 />
               </Form.Group>
