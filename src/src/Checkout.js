@@ -1,9 +1,12 @@
 import React from 'react';
+import { Container } from 'semantic-ui-react';
 
 const Checkout = () => {
   return (
     <div>
-      Checkout
+      <Container>
+        Checkout
+      </Container>
     </div>
   );
 };
