@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Container, Button, Checkbox, Form, Grid, Message } from 'semantic-ui-react';
+import { Container, Button, Checkbox, Form, Grid } from 'semantic-ui-react';
 import { luhnAlgorithm, validAmountRegex, validCardHolderRegex, validPanRegex } from '../utilits';
 
 export default class CreditCardForm extends Component {
@@ -47,21 +47,21 @@ export default class CreditCardForm extends Component {
     this.setState({ terms: !this.state.terms });
   };
 
-  onKeyDownAmount = (e) => {
-    if (validAmountRegex.test(e.key) && e.key !== 'Backspace') {
-      e.preventDefault();
-    }
-  };
-
   onChangeAmount = (e) => {
-    let valueToInt = parseInt(e.target.value);
+
+    if (e.target.value[0] == 0 && e.target.value != '') {
+      console.log('get zero');
+      e.target.value = 1 + e.target.value;
+    };
+
+    let valueToInt = parseFloat(e.target.value);
     if (valueToInt <= 200) {
       this.setState({
         total: valueToInt + 10,
       });
     } else {
       this.setState({
-        total: valueToInt = valueToInt * 5 / 100,
+        total: valueToInt * 5 / 100 + valueToInt,
       });
     };
 
@@ -70,14 +70,21 @@ export default class CreditCardForm extends Component {
     });
   };
 
+  onKeyDownAmount = (e) => {
+    if (!validAmountRegex.test(e.key) && e.key !== 'Backspace') {
+      e.preventDefault();
+    }
+  };
+
   onKeyDownCardHolder = (e) => {
-    if (validCardHolderRegex.test(e.key) && e.key !== 'Backspace') {
+    console.log(e.keyCode);
+    if (!validCardHolderRegex.test(e.key) && e.key !== 'Backspace') {
       e.preventDefault();
     };
   };
 
   onKeyDownPan = (e) => {
-    if (validPanRegex.test(e.key) && e.key !== 'Backspace') {
+    if (!validPanRegex.test(e.key) && e.key !== 'Backspace') {
       e.preventDefault();
     };
   };
@@ -141,14 +148,15 @@ export default class CreditCardForm extends Component {
                     maxLength='16'
                   />
                   {errors.pan.length > 0 &&
-                    <Message
+                    <span>
                       warning
                       header='Card failed validation'
                       list={[
                         'Number must contain 10 or 16 characters',
                         'Misspelling spelling',
                       ]}
-                    />}
+                      </span>
+                    }
                 </Form.Field>
                 <Form.Field>
                   <Form.Input

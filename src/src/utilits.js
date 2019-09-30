@@ -18,6 +18,7 @@ export function luhnAlgorithm(digits) {
   return sum % 10 === 0;
 };
 
-export const validAmountRegex = RegExp(/[a-zA-Z_;:!@#$%^&*()_+=[\]{}'"`<>,~?\-/]$/);
-export const validCardHolderRegex = RegExp(/[0-9;:!@#$%^&*()_+=[\]{}'"`<>,~?\-/]$/);
-export const validPanRegex = RegExp(/[a-zA-Z_;:!@#$%^&*()_+=[\]{}'"`<>,~?\-//.]$/);
+// export const validAmountRegex = RegExp(/[a-zA-Z_;:!@#$%^&*()_+=[\]{}'"`<>,~?\-/]$/);
+export const validAmountRegex = RegExp(/[0-9.\t]$/);
+export const validCardHolderRegex = RegExp(/[a-zA-Z\s\t]$/);
+export const validPanRegex = RegExp(/[0-9\t/]$/);
