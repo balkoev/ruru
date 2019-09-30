@@ -10,7 +10,7 @@ export default class Result extends Component {
   };
 
   componentWillMount() {
-    if (this.props.cvc == '123') {
+    if (this.props.cvc === '123') {
       this.setState({
         checkPayment: true,
       });
