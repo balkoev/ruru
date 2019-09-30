@@ -115,6 +115,18 @@ export default class CreditCardForm extends Component {
     };
   };
 
+  handleSubmit = (e) => {
+    e.preventDefault();
+    this.props.history.push('/checkout');
+    this.sendData();
+
+    // as={Link} to={'/checkout'}
+  };
+
+  sendData = () => {
+    this.props.appCallback(this.state.total);
+  };
+
   render() {
     const { amount, total, pan, cardHolder, expires, cvc, terms, pay } = this.state;
     const { errors } = this.state;
@@ -205,7 +217,7 @@ export default class CreditCardForm extends Component {
                   onClick={this.onClickTerms}
                 />
               </Form.Field>
-              <Button as={Link} to={'/checkout'} type='submit' disabled={!amount || !pan || !cardHolder || !expires || !cvc || !terms}>Pay</Button>
+              <Button type='submit' disabled={!amount || !pan || !cardHolder || !expires || !cvc || !terms}>Pay</Button>
             </Form>
           </Grid.Column>
         </Grid>
