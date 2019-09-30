@@ -24,7 +24,10 @@ export default class App extends Component {
               exact path='/'
               render={(props) => <CreditCardForm {...props} appCallback={this.callbackFunction}/>}
             />
-            <Route path='/checkout' component={Checkout} />
+            <Route
+              path='/checkout'
+              render={(props) => <Checkout {...props} total={this.state.total}/>}
+              />
             <Route path='/result' component={Result} />
           </Switch>
         </div>

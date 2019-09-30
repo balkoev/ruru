@@ -81,20 +81,20 @@ export default class CreditCardForm extends Component {
   };
 
   onChangeAmount = (e) => {
-    if (parseInt(e.target.value) <= 200) {
-      let res = (parseInt(this.state.amount) + 10);
-      console.log(res);
+    let valueToInt = parseInt(e.target.value);
+    if (valueToInt <= 200) {
       this.setState({
-        total: res,
+        total: valueToInt + 10,
       });
     } else {
-      console.log("%");
+      this.setState({
+        total: valueToInt = valueToInt * 5 / 100,
+      });
     };
 
     this.setState({
       amount: e.target.value,
     });
-    this.sendData();
   };
 
   onKeyDownCardHolder = (e) => {
@@ -113,6 +113,14 @@ export default class CreditCardForm extends Component {
     if (validPanRegex.test(e.key) && e.key !== 'Backspace') {
       e.preventDefault();
     };
+  };
+
+  handleSubmit = (e) => {
+    e.preventDefault();
+    this.props.history.push('/checkout');
+    this.sendData();
+
+    // as={Link} to={'/checkout'}
   };
 
   sendData = () => {
@@ -209,7 +217,7 @@ export default class CreditCardForm extends Component {
                   onClick={this.onClickTerms}
                 />
               </Form.Field>
-              <Button as={Link} to={'/checkout'} type='submit' disabled={!amount || !pan || !cardHolder || !expires || !cvc || !terms}>Pay</Button>
+              <Button type='submit' disabled={!amount || !pan || !cardHolder || !expires || !cvc || !terms}>Pay</Button>
             </Form>
           </Grid.Column>
         </Grid>
