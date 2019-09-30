@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Container, Button, Checkbox, Form, Grid, Message } from 'semantic-ui-react';
-import { Link } from 'react-router-dom';
 
 import './CreditCardForm.css';
 
@@ -65,7 +64,6 @@ export default class CreditCardForm extends Component {
       default:
         break;
     };
-    console.log(errors);
     this.setState({ errors, [name]: value, }, () => {
     });
   };
@@ -119,12 +117,11 @@ export default class CreditCardForm extends Component {
     e.preventDefault();
     this.props.history.push('/checkout');
     this.sendData();
-
-    // as={Link} to={'/checkout'}
   };
 
   sendData = () => {
-    this.props.appCallback(this.state.total);
+    this.props.totalPropsToApp(this.state.total);
+    this.props.cvcPropsToApp(this.state.cvc);
   };
 
   render() {
