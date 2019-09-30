@@ -81,14 +81,15 @@ export default class CreditCardForm extends Component {
   };
 
   onChangeAmount = (e) => {
-    if (parseInt(e.target.value) <= 200) {
-      let res = (parseInt(this.state.amount) + 10);
-      console.log(res);
+    let valueToInt = parseInt(e.target.value);
+    if (valueToInt <= 200) {
       this.setState({
-        total: res,
+        total: valueToInt + 10,
       });
     } else {
-      console.log("%");
+      this.setState({
+        total: valueToInt = valueToInt * 5 / 100,
+      });
     };
 
     this.setState({
