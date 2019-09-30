@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { Button, Checkbox, Form, Grid, Message } from 'semantic-ui-react';
-import NumberFormat from 'react-number-format';
+import { Container, Button, Checkbox, Form, Grid, Message } from 'semantic-ui-react';
+import { Link } from 'react-router-dom';
 
 import './CreditCardForm.css';
 
@@ -120,6 +120,7 @@ export default class CreditCardForm extends Component {
     console.log(this.state);
     return (
       <div>
+        <Container>
         <Grid centered columns={3}>
           <Grid.Column>
             <h1 className="credit-card-form ui header center aligned">Payment</h1>
@@ -203,10 +204,11 @@ export default class CreditCardForm extends Component {
                   onClick={this.onClickTerms}
                 />
               </Form.Field>
-              <Button type='submit' disabled={!amount || !pan || !cardHolder || !expires || !cvc || !terms}>Pay</Button>
+              <Button as={Link} to={'/checkout'} type='submit' disabled={!amount || !pan || !cardHolder || !expires || !cvc || !terms}>Pay</Button>
             </Form>
           </Grid.Column>
         </Grid>
+        </Container>
       </div>
     );
   };
