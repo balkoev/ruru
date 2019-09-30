@@ -94,6 +94,7 @@ export default class CreditCardForm extends Component {
     this.setState({
       amount: e.target.value,
     });
+    this.sendData();
   };
 
   onKeyDownCardHolder = (e) => {
@@ -112,6 +113,10 @@ export default class CreditCardForm extends Component {
     if (validPanRegex.test(e.key) && e.key !== 'Backspace') {
       e.preventDefault();
     };
+  };
+
+  sendData = () => {
+    this.props.appCallback(this.state.total);
   };
 
   render() {

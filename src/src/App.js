@@ -1,21 +1,34 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import CreditCardForm from './CreditCardForm';
 import Checkout from './Checkout';
 import Result from './Result';
 
-function App() {
-  return (
-    <Router>
-      <div>
-        <Switch>
-          <Route exact path='/' component={CreditCardForm} />
-          <Route path='/checkout' component={Checkout} />
-          <Route path='/result' component={Result} />
-        </Switch>
-      </div>
-    </Router>
-  );
-}
+export default class App extends Component {
 
-export default App;
+  state = {
+    total: '',
+  };
+
+  callbackFunction = (CreditCardData) => {
+    this.setState({ total: CreditCardData });
+  };
+
+  render() {
+    console.log(this.state.total);
+    return (
+      <Router>
+        <div>
+          <Switch>
+            <Route
+              exact path='/'
+              render={(props) => <CreditCardForm {...props} appCallback={this.callbackFunction}/>}
+            />
+            <Route path='/checkout' component={Checkout} />
+            <Route path='/result' component={Result} />
+          </Switch>
+        </div>
+      </Router>
+    );
+  };
+};
