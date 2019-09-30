@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Container, Button, Checkbox, Form, Grid } from 'semantic-ui-react';
+import { Label, Container, Button, Checkbox, Form, Grid } from 'semantic-ui-react';
 import { luhnAlgorithm, validAmountRegex, validCardHolderRegex, validPanRegex } from '../utilits';
 
 export default class CreditCardForm extends Component {
@@ -50,7 +50,6 @@ export default class CreditCardForm extends Component {
   onChangeAmount = (e) => {
 
     if (e.target.value[0] == 0 && e.target.value != '') {
-      console.log('get zero');
       e.target.value = 1 + e.target.value;
     };
 
@@ -148,15 +147,10 @@ export default class CreditCardForm extends Component {
                     maxLength='16'
                   />
                   {errors.pan.length > 0 &&
-                    <span>
-                      warning
-                      header='Card failed validation'
-                      list={[
-                        'Number must contain 10 or 16 characters',
-                        'Misspelling spelling',
-                      ]}
-                      </span>
-                    }
+                    <Label color='yellow' pointing>
+                      Please enter correct value
+                    </Label>
+                  }
                 </Form.Field>
                 <Form.Field>
                   <Form.Input
