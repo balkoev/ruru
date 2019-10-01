@@ -1,14 +1,17 @@
-<!-- # [localhost](https://localhost.herokuapp.com) -->
+<!-- # [ruru-payment](https://ruru-ru.herokuapp.com) -->
 
 ## Description
-Simple form for payment buy credit card
+Simple form for payment by credit card
 
 ## How to install
-in /src
 ```
 npm install
 npm start
 ```
+## Скриншоты
+![screen1](https://github.com/balkoev/ruru/blob/master/screenshots/1.png)
+![screen2](https://github.com/balkoev/ruru/blob/master/screenshots/2.png)
+![screen3](https://github.com/balkoev/ruru/blob/master/screenshots/3.png)
 
 ## Author
 - [Adam Balkoev](https://github.com/balkoev)
