@@ -1,4 +1,4 @@
-[ruru-payment](https://ruru-ru.herokuapp.com)
+# [ruru-payment.herokuapp.com](https://ruru-ru.herokuapp.com)
 
 ## Description
 Simple form for payment by credit card
